@@ -1,0 +1,57 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group 'com.sophossolutions'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+buildscript{
+    repositories{
+        mavenLocal()
+        jcenter()
+    }
+    dependencies{
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.12")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+ext {
+    slf4JVersion = '1.7.30'
+    jUnitVersion = '4.13'
+    commonsLangVersion = '3.10'
+    cucumberVersion = '5.4.2'
+    serenityCucumberVersion = '2.2.0'
+    serenityCoreVersion = '2.2.0'
+}
+
+dependencies {
+    implementation "org.slf4j:slf4j-simple:${slf4JVersion}"
+    implementation "junit:junit:${jUnitVersion}"
+    implementation "org.apache.commons:commons-lang3:${commonsLangVersion}"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "io.cucumber:cucumber-core:${cucumberVersion}"
+    implementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    implementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    implementation "net.serenity-bdd:serenity-cucumber5:${serenityCucumberVersion}"
+    implementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-junit:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityCoreVersion}"
+}
+
+test {
+    systemProperties System.getProperties()
+    systemProperty "file.encoding", "UTF-8"
+    testLogging.showStandardStreams = true
+}
